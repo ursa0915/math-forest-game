@@ -1,0 +1,24 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // 題庫 — 所有人可讀，只有已登入（非匿名）使用者可寫
+    match /questionBanks/{gradeId} {
+      allow read: if true;
+      allow write: if request.auth != null 
+                   && request.auth.token.firebase.sign_in_provider != 'anonymous';
+    }
+
+    // 使用者進度 — 本人可讀寫
+    match /userProgress/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+
+    // 管理員設定
+    match /adminSettings/{docId} {
+      allow read: if true;
+      allow write: if request.auth != null 
+                   && request.auth.token.firebase.sign_in_provider != 'anonymous';
+    }
+  }
+}

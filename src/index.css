@@ -731,119 +731,98 @@ body {
 .animal-strip {
     display: flex;
     justify-content: center;
-    gap: 10px;
+    gap: 6px;
     flex-wrap: wrap;
     padding: 8px 0;
 }
 
-/* 動物格子 */
 .animal-slot {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 4px;
+    gap: 2px;
 }
 
 .animal-name {
-    font-size: 0.65rem;
+    font-size: 0.6rem;
     font-weight: 700;
     color: var(--slate-400);
 }
 
-/* 動物圓形容器 */
-.animal-circle {
-    width: 52px;
-    height: 52px;
-    border-radius: 50%;
-    background: linear-gradient(145deg,
-            color-mix(in srgb, var(--animal-color) 25%, white),
-            color-mix(in srgb, var(--animal-color) 15%, white));
-    border: 3px solid color-mix(in srgb, var(--animal-color) 40%, white);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s;
+/* 動物 SVG 容器 */
+.animal-char-wrap {
+    width: 60px;
+    height: 60px;
+    transition: transform 0.3s;
 }
 
-.animal-circle:hover {
-    transform: scale(1.1);
+.animal-char {
+    width: 100%;
+    height: 100%;
+    display: block;
 }
 
-.animal-circle-lg {
-    width: 80px;
-    height: 80px;
-    border-width: 4px;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+/* 開心跳動動畫 */
+.animal-bounce {
+    animation: animal-bounce-anim 0.6s ease-in-out;
 }
 
-.animal-circle-sm {
-    width: 36px;
-    height: 36px;
-    border-width: 2px;
+@keyframes animal-bounce-anim {
+    0% {
+        transform: translateY(0) scale(1);
+    }
+
+    20% {
+        transform: translateY(-8px) scale(1.05);
+    }
+
+    40% {
+        transform: translateY(0) scale(0.97);
+    }
+
+    60% {
+        transform: translateY(-4px) scale(1.02);
+    }
+
+    80% {
+        transform: translateY(0) scale(0.99);
+    }
+
+    100% {
+        transform: translateY(0) scale(1);
+    }
 }
 
-/* 動物 emoji */
-.animal-emoji {
-    font-size: 1.6rem;
-    line-height: 1;
-    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
+/* 難過搖晃動畫 */
+.animal-shake {
+    animation: animal-shake-anim 0.5s ease-in-out;
 }
 
-.animal-circle-lg .animal-emoji {
-    font-size: 2.5rem;
+@keyframes animal-shake-anim {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    20% {
+        transform: translateX(-4px) rotate(-3deg);
+    }
+
+    40% {
+        transform: translateX(4px) rotate(3deg);
+    }
+
+    60% {
+        transform: translateX(-3px) rotate(-2deg);
+    }
+
+    80% {
+        transform: translateX(3px) rotate(2deg);
+    }
 }
 
-.animal-circle-sm .animal-emoji {
-    font-size: 1.1rem;
-}
-
-/* 配件定位 */
-.animal-accessory {
-    position: absolute;
-    font-size: 0.75rem;
-    line-height: 1;
-    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.2));
-    z-index: 2;
-}
-
-.animal-circle-lg .animal-accessory {
-    font-size: 1rem;
-}
-
-.animal-circle-sm .animal-accessory {
-    font-size: 0.55rem;
-}
-
-.acc-top {
-    top: -6px;
-    left: 50%;
-    transform: translateX(-50%);
-}
-
-.acc-top-right {
-    top: -4px;
-    right: -4px;
-}
-
-.acc-top-left {
-    top: -4px;
-    left: -4px;
-}
-
-.acc-bottom {
-    bottom: -4px;
-    left: 50%;
-    transform: translateX(-50%);
-}
-
-.acc-bottom-left {
-    bottom: -2px;
-    left: -4px;
-}
-
-/* 升級彈窗內的動物展示 */
+/* 升級彈窗動物 */
 .levelup-animals {
     margin: 16px 0;
 }
@@ -856,22 +835,16 @@ body {
     text-align: center;
 }
 
-.levelup-new-animals {
-    display: flex;
-    justify-content: center;
-    gap: 24px;
-    margin-bottom: 16px;
-}
-
 .levelup-new-animal {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 8px;
+    margin-bottom: 16px;
 }
 
 .levelup-animal-name {
-    font-size: 0.9rem;
+    font-size: 1rem;
     font-weight: 800;
     color: var(--forest-700);
 }
@@ -893,8 +866,13 @@ body {
 .levelup-mini-animals {
     display: flex;
     justify-content: center;
-    gap: 8px;
+    gap: 6px;
     flex-wrap: wrap;
+}
+
+.animal-mini-wrap {
+    width: 36px;
+    height: 36px;
 }
 
 /* Combo 特效 */

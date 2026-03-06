@@ -1,13 +1,13 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { getUnlockedAnimals, getNewAnimals, GRADE_ACCESSORIES, ACCESSORY_POSITIONS } from '../data/forestAnimals';
+import AnimalCharacter from './AnimalCharacter';
+import { getUnlockedAnimals, getNewAnimal } from '../data/forestAnimals';
 
 /**
- * 森林動物展示條 — 遊戲中顯示已解鎖的動物
+ * 森林動物展示條 — 遊戲中顯示已解鎖的動物（帶表情反應）
  */
-export function AnimalStrip({ level, grade }) {
+export function AnimalStrip({ level, grade, mood }) {
     const animals = getUnlockedAnimals(level);
-    const accessories = GRADE_ACCESSORIES[grade] || [];
 
     if (animals.length === 0) return null;
 
@@ -18,28 +18,23 @@ export function AnimalStrip({ level, grade }) {
                     <motion.div
                         key={animal.id}
                         className="animal-slot"
-                        initial={{ scale: 0, opacity: 0 }}
-                        animate={{ scale: 1, opacity: 1 }}
+                        initial={{ scale: 0, y: 20 }}
+                        animate={{ scale: 1, y: 0 }}
                         transition={{
-                            delay: i * 0.08,
+                            delay: i * 0.06,
                             type: 'spring',
                             stiffness: 300,
                             damping: 20,
                         }}
                     >
-                        <div
-                            className="animal-circle"
-                            style={{ '--animal-color': animal.color }}
-                        >
-                            <span className="animal-emoji">{animal.emoji}</span>
-                            {accessories.map((acc, j) => (
-                                <span
-                                    key={j}
-                                    className={`animal-accessory ${ACCESSORY_POSITIONS[acc] || 'acc-top'}`}
-                                >
-                                    {acc}
-                                </span>
-                            ))}
+                        <div className={`animal-char-wrap ${mood === 'happy' || mood === 'excited' ? 'animal-bounce' :
+                                mood === 'sad' ? 'animal-shake' : ''
+                            }`}>
+                            <AnimalCharacter
+                                type={animal.id}
+                                mood={mood || 'normal'}
+                                grade={grade}
+                            />
                         </div>
                         <span className="animal-name">{animal.name}</span>
                     </motion.div>
@@ -53,65 +48,54 @@ export function AnimalStrip({ level, grade }) {
  * 升級彈窗內容 — 展示新解鎖的動物
  */
 export function LevelUpAnimals({ level, grade }) {
-    const newAnimals = getNewAnimals(level);
+    const newAnimal = getNewAnimal(level);
     const allAnimals = getUnlockedAnimals(level);
-    const accessories = GRADE_ACCESSORIES[grade] || [];
 
     return (
         <div className="levelup-animals">
-            {/* 新夥伴標題 */}
-            {newAnimals.length > 0 && (
-                <p className="levelup-animals-title">
-                    🌲 新夥伴加入森林！
-                </p>
-            )}
-
-            {/* 新解鎖的動物（大） */}
-            <div className="levelup-new-animals">
-                {newAnimals.map((animal, i) => (
+            {/* 新夥伴 */}
+            {newAnimal && (
+                <>
+                    <p className="levelup-animals-title">
+                        🌲 新夥伴加入森林！
+                    </p>
                     <motion.div
-                        key={animal.id}
                         className="levelup-new-animal"
                         initial={{ scale: 0, y: 30 }}
                         animate={{ scale: 1, y: 0 }}
                         transition={{
-                            delay: 0.3 + i * 0.2,
+                            delay: 0.3,
                             type: 'spring',
                             stiffness: 200,
                             damping: 15,
                         }}
                     >
-                        <div
-                            className="animal-circle animal-circle-lg"
-                            style={{ '--animal-color': animal.color }}
-                        >
-                            <span className="animal-emoji">{animal.emoji}</span>
-                            {accessories.map((acc, j) => (
-                                <span
-                                    key={j}
-                                    className={`animal-accessory ${ACCESSORY_POSITIONS[acc] || 'acc-top'}`}
-                                >
-                                    {acc}
-                                </span>
-                            ))}
+                        <div className="animal-char-wrap animal-bounce" style={{ width: 100, height: 100 }}>
+                            <AnimalCharacter
+                                type={newAnimal.id}
+                                mood="happy"
+                                grade={grade}
+                            />
                         </div>
-                        <span className="levelup-animal-name">{animal.name}</span>
+                        <span className="levelup-animal-name">{newAnimal.name}</span>
                     </motion.div>
-                ))}
-            </div>
+                </>
+            )}
 
-            {/* 全部已收集（小） */}
-            {allAnimals.length > 2 && (
+            {/* 全部已收集（小顯示） */}
+            {allAnimals.length > 1 && (
                 <div className="levelup-all-animals">
-                    <p className="levelup-collection-label">🌳 我的森林 ({allAnimals.length}/7)</p>
+                    <p className="levelup-collection-label">
+                        🌳 我的森林 ({allAnimals.length}/7)
+                    </p>
                     <div className="levelup-mini-animals">
                         {allAnimals.map((animal) => (
-                            <div
-                                key={animal.id}
-                                className="animal-circle animal-circle-sm"
-                                style={{ '--animal-color': animal.color }}
-                            >
-                                <span className="animal-emoji">{animal.emoji}</span>
+                            <div key={animal.id} className="animal-mini-wrap">
+                                <AnimalCharacter
+                                    type={animal.id}
+                                    mood="happy"
+                                    grade={grade}
+                                />
                             </div>
                         ))}
                     </div>

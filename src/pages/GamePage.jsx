@@ -216,7 +216,7 @@ export default function GamePage() {
                         </motion.div>
                     )}
                 </AnimatePresence>
-                <AnimalStrip level={currentLevel} grade={gradeNum} />
+                <AnimalStrip level={currentLevel} grade={gradeNum} mood={feedback.type} />
             </div>
 
             {/* Combo 特效 */}

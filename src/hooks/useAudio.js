@@ -8,16 +8,20 @@ import { useRef, useState, useCallback, useEffect } from 'react';
 let globalAudioCtx = null;
 
 function getAudioCtx() {
-    if (!globalAudioCtx) {
+    if (!globalAudioCtx || globalAudioCtx.state === 'closed') {
         globalAudioCtx = new (window.AudioContext || window.webkitAudioContext)();
     }
     return globalAudioCtx;
 }
 
-function resumeAudioCtx() {
+async function resumeAudioCtx() {
     const ctx = getAudioCtx();
     if (ctx.state === 'suspended') {
-        ctx.resume();
+        try {
+            await ctx.resume();
+        } catch (e) {
+            // ignore
+        }
     }
     return ctx;
 }
@@ -303,8 +307,8 @@ export default function useAudio() {
         };
     }, []);
 
-    const startBGM = useCallback(() => {
-        const ctx = resumeAudioCtx();
+    const startBGM = useCallback(async () => {
+        const ctx = await resumeAudioCtx();
         if (!bgmRef.current) {
             bgmRef.current = new BGMEngine(ctx);
         }
@@ -319,33 +323,33 @@ export default function useAudio() {
         }
     }, []);
 
-    const playCorrect = useCallback(() => {
+    const playCorrect = useCallback(async () => {
         if (mutedRef.current) return;
-        const ctx = resumeAudioCtx();
+        const ctx = await resumeAudioCtx();
         playCorrectSound(ctx);
     }, []);
 
-    const playWrong = useCallback(() => {
+    const playWrong = useCallback(async () => {
         if (mutedRef.current) return;
-        const ctx = resumeAudioCtx();
+        const ctx = await resumeAudioCtx();
         playWrongSound(ctx);
     }, []);
 
-    const playClick = useCallback(() => {
+    const playClick = useCallback(async () => {
         if (mutedRef.current) return;
-        const ctx = resumeAudioCtx();
+        const ctx = await resumeAudioCtx();
         playClickSound(ctx);
     }, []);
 
-    const playLevelUp = useCallback(() => {
+    const playLevelUp = useCallback(async () => {
         if (mutedRef.current) return;
-        const ctx = resumeAudioCtx();
+        const ctx = await resumeAudioCtx();
         playLevelUpSound(ctx);
     }, []);
 
-    const playCombo = useCallback(() => {
+    const playCombo = useCallback(async () => {
         if (mutedRef.current) return;
-        const ctx = resumeAudioCtx();
+        const ctx = await resumeAudioCtx();
         playComboSound(ctx);
     }, []);
 

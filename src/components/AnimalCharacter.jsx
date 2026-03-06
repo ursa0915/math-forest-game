@@ -23,7 +23,7 @@ export default function AnimalCharacter({ type = 'bear', mood = 'normal', grade 
     const isSad = mood === 'sad';
 
     return (
-        <svg viewBox="0 0 100 130" className="animal-char">
+        <svg viewBox="0 0 100 115" className="animal-char">
             {/* ── 年級配件 ── */}
             <GradeAccessories grade={grade} />
 
@@ -40,8 +40,8 @@ export default function AnimalCharacter({ type = 'bear', mood = 'normal', grade 
             <Nose type={type} />
 
             {/* ── 小身體 (rx=16, ry=18) ── */}
-            <ellipse cx="50" cy="100" rx="16" ry="18" fill={c.body} />
-            <ellipse cx="50" cy="102" rx="10" ry="12" fill={c.belly} opacity="0.55" />
+            <ellipse cx="50" cy="85" rx="16" ry="18" fill={c.body} />
+            <ellipse cx="50" cy="87" rx="10" ry="12" fill={c.belly} opacity="0.55" />
 
             {/* ── 小腳 ── */}
             <Legs type={type} c={c} />
@@ -49,14 +49,14 @@ export default function AnimalCharacter({ type = 'bear', mood = 'normal', grade 
             {/* ── 手臂 ── */}
             <g className="animal-arm-left">
                 <path d={type === 'bird'
-                    ? "M 34 92 Q 22 84 18 92 Q 22 100 34 96"
-                    : "M 34 94 Q 24 88 22 96 Q 24 104 34 100"}
+                    ? "M 34 78 Q 22 70 18 78 Q 22 86 34 82"
+                    : "M 34 80 Q 24 74 22 82 Q 24 90 34 86"}
                     fill={c.body} />
             </g>
             <g className="animal-arm-right">
                 <path d={type === 'bird'
-                    ? "M 66 92 Q 78 84 82 92 Q 78 100 66 96"
-                    : "M 66 94 Q 76 88 78 96 Q 76 104 66 100"}
+                    ? "M 66 78 Q 78 70 82 78 Q 78 86 66 82"
+                    : "M 66 80 Q 76 74 78 82 Q 76 90 66 86"}
                     fill={c.body} />
             </g>
 
@@ -141,17 +141,17 @@ function Ears({ type, c }) {
 function Legs({ type, c }) {
     if (type === 'bird') {
         return (<g>
-            <line x1="44" y1="116" x2="44" y2="128" stroke="#F59E0B" strokeWidth="2.5" strokeLinecap="round" />
-            <line x1="56" y1="116" x2="56" y2="128" stroke="#F59E0B" strokeWidth="2.5" strokeLinecap="round" />
-            <line x1="39" y1="128" x2="49" y2="128" stroke="#F59E0B" strokeWidth="2" strokeLinecap="round" />
-            <line x1="51" y1="128" x2="61" y2="128" stroke="#F59E0B" strokeWidth="2" strokeLinecap="round" />
+            <line x1="44" y1="101" x2="44" y2="112" stroke="#F59E0B" strokeWidth="2.5" strokeLinecap="round" />
+            <line x1="56" y1="101" x2="56" y2="112" stroke="#F59E0B" strokeWidth="2.5" strokeLinecap="round" />
+            <line x1="39" y1="112" x2="49" y2="112" stroke="#F59E0B" strokeWidth="2" strokeLinecap="round" />
+            <line x1="51" y1="112" x2="61" y2="112" stroke="#F59E0B" strokeWidth="2" strokeLinecap="round" />
         </g>);
     }
     return (<g>
-        <ellipse cx="40" cy="116" rx="8" ry="5" fill={c.body} />
-        <ellipse cx="40" cy="117" rx="6" ry="3.5" fill={c.belly} opacity="0.5" />
-        <ellipse cx="60" cy="116" rx="8" ry="5" fill={c.body} />
-        <ellipse cx="60" cy="117" rx="6" ry="3.5" fill={c.belly} opacity="0.5" />
+        <ellipse cx="40" cy="101" rx="8" ry="5" fill={c.body} />
+        <ellipse cx="40" cy="102" rx="6" ry="3.5" fill={c.belly} opacity="0.5" />
+        <ellipse cx="60" cy="101" rx="8" ry="5" fill={c.body} />
+        <ellipse cx="60" cy="102" rx="6" ry="3.5" fill={c.belly} opacity="0.5" />
     </g>);
 }
 
@@ -160,18 +160,18 @@ function Legs({ type, c }) {
 function Tail({ type, c }) {
     switch (type) {
         case 'bear':
-            return <circle cx="66" cy="112" r="4" fill={c.body} />;
+            return <circle cx="66" cy="97" r="4" fill={c.body} />;
         case 'rabbit':
-            return <circle cx="66" cy="110" r="5" fill="white" opacity="0.8" />;
+            return <circle cx="66" cy="95" r="5" fill="white" opacity="0.8" />;
         case 'dog':
-            return (<path d="M 66 98 Q 76 88 78 98 Q 76 104 70 106"
+            return (<path d="M 66 84 Q 76 74 78 84 Q 76 90 70 92"
                 fill={c.body} className="tail-wag" />);
         case 'cat':
-            return (<path d="M 66 104 Q 82 94 80 108 Q 78 118 74 112"
+            return (<path d="M 66 90 Q 82 80 80 94 Q 78 104 74 98"
                 fill={c.body} stroke={c.body} strokeWidth="2.5"
                 strokeLinecap="round" className="tail-wag" />);
         case 'monkey':
-            return (<path d="M 66 104 Q 84 98 82 112 Q 80 124 76 118"
+            return (<path d="M 66 90 Q 84 84 82 98 Q 80 110 76 104"
                 fill="none" stroke={c.body} strokeWidth="3.5"
                 strokeLinecap="round" className="tail-wag" />);
         default: return null;
@@ -254,14 +254,14 @@ function GradeAccessories({ grade }) {
     if (grade <= 1) return null;
     return (<g>
         {grade >= 2 && (
-            <g transform="translate(50,72)">
+            <g transform="translate(50,58)">
                 <path d="M -8 0 C -8 -5 -1 -5 0 0 C 1 -5 8 -5 8 0 C 8 5 1 5 0 0 C -1 5 -8 5 -8 0 Z"
                     fill="#F43F5E" />
                 <circle r="2.5" fill="#FB7185" />
             </g>
         )}
         {grade >= 3 && (
-            <path d="M 34 74 Q 50 80 66 74" stroke="#22C55E" strokeWidth="3.5"
+            <path d="M 34 60 Q 50 66 66 60" stroke="#22C55E" strokeWidth="3.5"
                 fill="none" strokeLinecap="round" opacity="0.6" />
         )}
         {grade >= 4 && grade < 5 && (

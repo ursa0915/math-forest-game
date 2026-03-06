@@ -731,28 +731,28 @@ body {
 .animal-strip {
     display: flex;
     justify-content: center;
-    gap: 6px;
+    gap: 2px;
     flex-wrap: wrap;
-    padding: 8px 0;
+    padding: 6px 0;
 }
 
 .animal-slot {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 2px;
+    gap: 0;
 }
 
 .animal-name {
-    font-size: 0.6rem;
+    font-size: 0.55rem;
     font-weight: 700;
     color: var(--slate-400);
 }
 
 /* 動物 SVG 容器 */
 .animal-char-wrap {
-    width: 60px;
-    height: 60px;
+    width: 65px;
+    height: 85px;
     transition: transform 0.3s;
 }
 
@@ -760,32 +760,65 @@ body {
     width: 100%;
     height: 100%;
     display: block;
+    overflow: visible;
 }
 
-/* 開心跳動動畫 */
-.animal-bounce {
-    animation: animal-bounce-anim 0.6s ease-in-out;
+/* ── 手臂動畫 ── */
+.animal-arm-left,
+.animal-arm-right {
+    transition: transform 0.3s ease;
+    transform-origin: 28px 90px;
 }
 
-@keyframes animal-bounce-anim {
+.animal-arm-right {
+    transform-origin: 72px 90px;
+}
+
+/* ── 待機微動 ── */
+.animal-idle .animal-char-wrap {
+    animation: animal-idle-bob 3s ease-in-out infinite;
+}
+
+@keyframes animal-idle-bob {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-2px);
+    }
+}
+
+/* ── 慶祝：跳躍 + 手臂舉起（擊掌效果） ── */
+.animal-celebrate .animal-char-wrap {
+    animation: animal-celebrate-jump 0.7s ease-in-out;
+}
+
+@keyframes animal-celebrate-jump {
     0% {
         transform: translateY(0) scale(1);
     }
 
-    20% {
-        transform: translateY(-8px) scale(1.05);
+    15% {
+        transform: translateY(-16px) scale(1.05);
     }
 
-    40% {
-        transform: translateY(0) scale(0.97);
+    30% {
+        transform: translateY(0) scale(0.95);
+    }
+
+    45% {
+        transform: translateY(-10px) scale(1.03);
     }
 
     60% {
-        transform: translateY(-4px) scale(1.02);
+        transform: translateY(0) scale(0.97);
     }
 
-    80% {
-        transform: translateY(0) scale(0.99);
+    75% {
+        transform: translateY(-4px) scale(1.01);
     }
 
     100% {
@@ -793,32 +826,150 @@ body {
     }
 }
 
-/* 難過搖晃動畫 */
-.animal-shake {
-    animation: animal-shake-anim 0.5s ease-in-out;
+/* 慶祝時手臂舉起 —— 相鄰動物手臂都舉起 = 視覺擊掌 */
+.animals-celebrate .animal-arm-left {
+    animation: arm-raise-left 0.6s ease-in-out;
 }
 
-@keyframes animal-shake-anim {
+.animals-celebrate .animal-arm-right {
+    animation: arm-raise-right 0.6s ease-in-out;
+}
 
-    0%,
-    100% {
-        transform: translateX(0);
+@keyframes arm-raise-left {
+    0% {
+        transform: rotate(0deg);
     }
 
-    20% {
-        transform: translateX(-4px) rotate(-3deg);
-    }
-
-    40% {
-        transform: translateX(4px) rotate(3deg);
+    30% {
+        transform: rotate(-45deg);
     }
 
     60% {
-        transform: translateX(-3px) rotate(-2deg);
+        transform: rotate(-40deg);
     }
 
-    80% {
-        transform: translateX(3px) rotate(2deg);
+    100% {
+        transform: rotate(0deg);
+    }
+}
+
+@keyframes arm-raise-right {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    30% {
+        transform: rotate(45deg);
+    }
+
+    60% {
+        transform: rotate(40deg);
+    }
+
+    100% {
+        transform: rotate(0deg);
+    }
+}
+
+/* 慶祝星星飛出 */
+.celebrate-stars text {
+    animation: star-float 0.8s ease-out forwards;
+}
+
+@keyframes star-float {
+    0% {
+        transform: translateY(0) scale(0);
+        opacity: 0;
+    }
+
+    30% {
+        transform: translateY(-5px) scale(1.2);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(-18px) scale(0.6);
+        opacity: 0;
+    }
+}
+
+/* ── 答錯：安慰搖晃 ── */
+.animal-sad-anim .animal-char-wrap {
+    animation: animal-comfort 0.8s ease-in-out;
+}
+
+@keyframes animal-comfort {
+
+    0%,
+    100% {
+        transform: translateX(0) rotate(0deg);
+    }
+
+    15% {
+        transform: translateX(-3px) rotate(-3deg);
+    }
+
+    30% {
+        transform: translateX(3px) rotate(3deg);
+    }
+
+    45% {
+        transform: translateX(-2px) rotate(-2deg);
+    }
+
+    60% {
+        transform: translateX(2px) rotate(2deg);
+    }
+
+    75% {
+        transform: translateX(-1px) rotate(-1deg);
+    }
+}
+
+/* 安慰時手臂伸向隔壁（拍拍） */
+.animals-comfort .animal-arm-right {
+    animation: arm-pat-right 0.8s ease-in-out;
+}
+
+@keyframes arm-pat-right {
+
+    0%,
+    100% {
+        transform: rotate(0deg);
+    }
+
+    25% {
+        transform: rotate(20deg);
+    }
+
+    50% {
+        transform: rotate(15deg);
+    }
+
+    75% {
+        transform: rotate(20deg);
+    }
+}
+
+/* ── 尾巴擺動 ── */
+.tail-wag {
+    animation: tail-wag-anim 0.8s ease-in-out infinite;
+    transform-origin: 72px 105px;
+}
+
+@keyframes tail-wag-anim {
+
+    0%,
+    100% {
+        transform: rotate(0deg);
+    }
+
+    25% {
+        transform: rotate(8deg);
+    }
+
+    75% {
+        transform: rotate(-8deg);
     }
 }
 
@@ -871,8 +1022,8 @@ body {
 }
 
 .animal-mini-wrap {
-    width: 36px;
-    height: 36px;
+    width: 40px;
+    height: 52px;
 }
 
 /* Combo 特效 */

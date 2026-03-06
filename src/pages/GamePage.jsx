@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import useGameState from '../hooks/useGameState';
 import useAudio from '../hooks/useAudio';
-import BearCharacter from '../components/BearCharacter';
+import { AnimalStrip, LevelUpAnimals } from '../components/ForestAnimals';
 import { DEFAULT_QUESTIONS } from '../data/defaultQuestions';
 
 export default function GamePage() {
@@ -201,12 +201,12 @@ export default function GamePage() {
                 </div>
             )}
 
-            {/* 小熊 + 對話框 */}
-            <div className="bear-area">
+            {/* 森林動物收集條 + 對話框 */}
+            <div className="forest-area">
                 <AnimatePresence>
                     {feedback.text && (
                         <motion.div
-                            className="bear-speech"
+                            className="forest-speech"
                             initial={{ opacity: 0, y: 10, scale: 0.9 }}
                             animate={{ opacity: 1, y: 0, scale: 1 }}
                             exit={{ opacity: 0, y: 10 }}
@@ -216,7 +216,7 @@ export default function GamePage() {
                         </motion.div>
                     )}
                 </AnimatePresence>
-                <BearCharacter mood={feedback.type} level={currentLevel} stars={stars} />
+                <AnimalStrip level={currentLevel} grade={gradeNum} />
             </div>
 
             {/* Combo 特效 */}
@@ -258,8 +258,8 @@ export default function GamePage() {
                             <h2 className="level-up-title">升級了！</h2>
                             <p className="level-up-desc">
                                 你已經到達等級 {currentLevel}！
-                                <br />繼續加油！
                             </p>
+                            <LevelUpAnimals level={currentLevel} grade={gradeNum} />
                             <button className="level-up-btn" onClick={dismissLevelUp}>
                                 繼續挑戰！ 🚀
                             </button>

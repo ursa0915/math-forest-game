@@ -684,34 +684,35 @@ body {
     animation: shake 0.4s ease-in-out;
 }
 
-/* 小熊 + 對話框 */
-.bear-area {
-    position: fixed;
-    bottom: 16px;
-    right: 16px;
+/* 森林動物收集區 */
+.forest-area {
+    width: 100%;
+    max-width: 480px;
     display: flex;
     flex-direction: column;
-    align-items: flex-end;
-    z-index: 50;
-    pointer-events: none;
+    align-items: center;
+    margin-top: 12px;
+    position: relative;
 }
 
-.bear-speech {
+.forest-speech {
     background: white;
-    padding: 10px 16px;
+    padding: 8px 16px;
     border-radius: var(--radius-md);
     box-shadow: var(--shadow-md);
-    margin-bottom: 8px;
-    max-width: 200px;
-    position: relative;
+    margin-bottom: 10px;
+    max-width: 280px;
+    text-align: center;
     border: 2px solid var(--forest-100);
+    position: relative;
 }
 
-.bear-speech::after {
+.forest-speech::after {
     content: '';
     position: absolute;
     bottom: -8px;
-    right: 20px;
+    left: 50%;
+    transform: translateX(-50%);
     width: 0;
     height: 0;
     border-left: 8px solid transparent;
@@ -719,21 +720,181 @@ body {
     border-top: 8px solid white;
 }
 
-.bear-speech p {
+.forest-speech p {
     font-size: 0.85rem;
     font-weight: 700;
     color: var(--forest-700);
     margin: 0;
 }
 
-.bear-svg {
-    width: 80px;
-    height: 80px;
-    transition: transform 0.3s;
+/* 動物展示條 */
+.animal-strip {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    padding: 8px 0;
 }
 
-.bear-svg.excited {
-    animation: wiggle 0.5s ease-in-out infinite;
+/* 動物格子 */
+.animal-slot {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+
+.animal-name {
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: var(--slate-400);
+}
+
+/* 動物圓形容器 */
+.animal-circle {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: linear-gradient(145deg,
+            color-mix(in srgb, var(--animal-color) 25%, white),
+            color-mix(in srgb, var(--animal-color) 15%, white));
+    border: 3px solid color-mix(in srgb, var(--animal-color) 40%, white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+}
+
+.animal-circle:hover {
+    transform: scale(1.1);
+}
+
+.animal-circle-lg {
+    width: 80px;
+    height: 80px;
+    border-width: 4px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.animal-circle-sm {
+    width: 36px;
+    height: 36px;
+    border-width: 2px;
+}
+
+/* 動物 emoji */
+.animal-emoji {
+    font-size: 1.6rem;
+    line-height: 1;
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
+}
+
+.animal-circle-lg .animal-emoji {
+    font-size: 2.5rem;
+}
+
+.animal-circle-sm .animal-emoji {
+    font-size: 1.1rem;
+}
+
+/* 配件定位 */
+.animal-accessory {
+    position: absolute;
+    font-size: 0.75rem;
+    line-height: 1;
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.2));
+    z-index: 2;
+}
+
+.animal-circle-lg .animal-accessory {
+    font-size: 1rem;
+}
+
+.animal-circle-sm .animal-accessory {
+    font-size: 0.55rem;
+}
+
+.acc-top {
+    top: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.acc-top-right {
+    top: -4px;
+    right: -4px;
+}
+
+.acc-top-left {
+    top: -4px;
+    left: -4px;
+}
+
+.acc-bottom {
+    bottom: -4px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.acc-bottom-left {
+    bottom: -2px;
+    left: -4px;
+}
+
+/* 升級彈窗內的動物展示 */
+.levelup-animals {
+    margin: 16px 0;
+}
+
+.levelup-animals-title {
+    font-size: 1rem;
+    font-weight: 800;
+    color: var(--forest-600);
+    margin-bottom: 16px;
+    text-align: center;
+}
+
+.levelup-new-animals {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    margin-bottom: 16px;
+}
+
+.levelup-new-animal {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.levelup-animal-name {
+    font-size: 0.9rem;
+    font-weight: 800;
+    color: var(--forest-700);
+}
+
+.levelup-all-animals {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid var(--forest-100);
+}
+
+.levelup-collection-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--slate-400);
+    margin-bottom: 8px;
+    text-align: center;
+}
+
+.levelup-mini-animals {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
 }
 
 /* Combo 特效 */

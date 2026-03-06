@@ -767,11 +767,11 @@ body {
 .animal-arm-left,
 .animal-arm-right {
     transition: transform 0.3s ease;
-    transform-origin: 28px 90px;
+    transform-origin: 34px 97px;
 }
 
 .animal-arm-right {
-    transform-origin: 72px 90px;
+    transform-origin: 66px 97px;
 }
 
 /* ── 待機微動 ── */

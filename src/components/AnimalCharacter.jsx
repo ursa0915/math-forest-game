@@ -1,13 +1,10 @@
 import React from 'react';
 
 /**
- * 森林動物角色（全身版）— SVG 動物 + 身體 + 手臂 + 動態表情 + 互動動畫
- * 
- * CSS class 控制互動：
- *   .animal-celebrate  → 舉手慶祝（答對）
- *   .animal-highfive   → 擊掌（相鄰動物手臂伸出）
- *   .animal-sad-anim   → 安慰搖晃（答錯）
- *   .animal-idle       → 待機微動
+ * 森林動物角色（Q版大頭）— 頭約身體 2 倍大
+ * viewBox: 0 0 100 130
+ * 頭: cx=50, cy=40, r=32
+ * 身體: cx=50, cy=100, rx=16, ry=18
  */
 
 const ANIMAL_CONFIG = {
@@ -26,66 +23,61 @@ export default function AnimalCharacter({ type = 'bear', mood = 'normal', grade 
     const isSad = mood === 'sad';
 
     return (
-        <svg viewBox="0 0 100 150" className="animal-char">
+        <svg viewBox="0 0 100 130" className="animal-char">
             {/* ── 年級配件 ── */}
             <GradeAccessories grade={grade} />
 
-            {/* ── 動物耳朵/頭部特徵 ── */}
+            {/* ── 耳朵（在頭後面） ── */}
             <Ears type={type} c={c} />
 
-            {/* ── 頭部 ── */}
-            <circle cx="50" cy="45" r="25" fill={c.body} />
-            <circle cx="50" cy="52" r="16" fill={c.light} opacity="0.45" />
+            {/* ── 大頭 (r=32) ── */}
+            <circle cx="50" cy="40" r="32" fill={c.body} />
+            <circle cx="50" cy="48" r="20" fill={c.light} opacity="0.4" />
 
             {/* ── 臉部特徵 ── */}
             <FaceDetail type={type} c={c} />
-
-            {/* ── 表情 ── */}
             <Expression mood={mood} />
             <Nose type={type} />
 
-            {/* ── 身體 ── */}
-            <ellipse cx="50" cy="95" rx="22" ry="28" fill={c.body} />
-            {/* 肚子 */}
-            <ellipse cx="50" cy="98" rx="14" ry="18" fill={c.belly} opacity="0.6" />
+            {/* ── 小身體 (rx=16, ry=18) ── */}
+            <ellipse cx="50" cy="100" rx="16" ry="18" fill={c.body} />
+            <ellipse cx="50" cy="102" rx="10" ry="12" fill={c.belly} opacity="0.55" />
 
-            {/* ── 腳 ── */}
-            <Legs type={type} c={c} isHappy={isHappy} />
+            {/* ── 小腳 ── */}
+            <Legs type={type} c={c} />
 
-            {/* ── 手臂（用 CSS class 控制動畫） ── */}
+            {/* ── 手臂 ── */}
             <g className="animal-arm-left">
                 <path d={type === 'bird'
-                    ? "M 28 85 Q 15 75 10 85 Q 15 95 28 90"
-                    : "M 28 85 Q 18 80 15 90 Q 18 100 28 95"}
+                    ? "M 34 92 Q 22 84 18 92 Q 22 100 34 96"
+                    : "M 34 94 Q 24 88 22 96 Q 24 104 34 100"}
                     fill={c.body} />
             </g>
             <g className="animal-arm-right">
                 <path d={type === 'bird'
-                    ? "M 72 85 Q 85 75 90 85 Q 85 95 72 90"
-                    : "M 72 85 Q 82 80 85 90 Q 82 100 72 95"}
+                    ? "M 66 92 Q 78 84 82 92 Q 78 100 66 96"
+                    : "M 66 94 Q 76 88 78 96 Q 76 104 66 100"}
                     fill={c.body} />
             </g>
 
             {/* ── 尾巴 ── */}
             <Tail type={type} c={c} />
 
-            {/* ── 答對特效：星星 ── */}
+            {/* ── 答對星星 ── */}
             {isHappy && (
                 <g className="celebrate-stars">
-                    <text x="10" y="25" fontSize="10" opacity="0.8">⭐</text>
-                    <text x="80" y="20" fontSize="8" opacity="0.6">✨</text>
-                    <text x="5" y="60" fontSize="7" opacity="0.5">🌟</text>
+                    <text x="5" y="18" fontSize="10" opacity="0.8">⭐</text>
+                    <text x="82" y="14" fontSize="8" opacity="0.6">✨</text>
+                    <text x="2" y="55" fontSize="7" opacity="0.5">🌟</text>
                 </g>
             )}
 
-            {/* ── 答錯特效：汗滴 ── */}
+            {/* ── 答錯汗滴 ── */}
             {isSad && (
-                <g>
-                    <ellipse cx="72" cy="38" rx="2" ry="3.5" fill="#93C5FD" opacity="0.7">
-                        <animate attributeName="cy" values="36;48;36" dur="1.2s" repeatCount="indefinite" />
-                        <animate attributeName="opacity" values="0.7;0;0.7" dur="1.2s" repeatCount="indefinite" />
-                    </ellipse>
-                </g>
+                <ellipse cx="78" cy="30" rx="2" ry="3.5" fill="#93C5FD" opacity="0.7">
+                    <animate attributeName="cy" values="28;42;28" dur="1.2s" repeatCount="indefinite" />
+                    <animate attributeName="opacity" values="0.7;0;0.7" dur="1.2s" repeatCount="indefinite" />
+                </ellipse>
             )}
         </svg>
     );
@@ -97,49 +89,48 @@ function Ears({ type, c }) {
     switch (type) {
         case 'bear':
             return (<g>
-                <circle cx="30" cy="28" r="11" fill={c.body} />
-                <circle cx="30" cy="28" r="6" fill={c.light} opacity="0.5" />
-                <circle cx="70" cy="28" r="11" fill={c.body} />
-                <circle cx="70" cy="28" r="6" fill={c.light} opacity="0.5" />
+                <circle cx="24" cy="18" r="13" fill={c.body} />
+                <circle cx="24" cy="18" r="7" fill={c.light} opacity="0.5" />
+                <circle cx="76" cy="18" r="13" fill={c.body} />
+                <circle cx="76" cy="18" r="7" fill={c.light} opacity="0.5" />
             </g>);
         case 'rabbit':
             return (<g>
-                <ellipse cx="38" cy="14" rx="7" ry="20" fill={c.body} />
-                <ellipse cx="38" cy="14" rx="4" ry="14" fill="#FDA4AF" opacity="0.5" />
-                <ellipse cx="62" cy="14" rx="7" ry="20" fill={c.body} />
-                <ellipse cx="62" cy="14" rx="4" ry="14" fill="#FDA4AF" opacity="0.5" />
+                <ellipse cx="36" cy="4" rx="8" ry="24" fill={c.body} />
+                <ellipse cx="36" cy="4" rx="4.5" ry="17" fill="#FDA4AF" opacity="0.5" />
+                <ellipse cx="64" cy="4" rx="8" ry="24" fill={c.body} />
+                <ellipse cx="64" cy="4" rx="4.5" ry="17" fill="#FDA4AF" opacity="0.5" />
             </g>);
         case 'dog':
             return (<g>
-                <ellipse cx="27" cy="40" rx="10" ry="15" fill={c.body} transform="rotate(-10,27,40)" />
-                <ellipse cx="73" cy="40" rx="10" ry="15" fill={c.body} transform="rotate(10,73,40)" />
+                <ellipse cx="22" cy="36" rx="11" ry="18" fill={c.body} transform="rotate(-15,22,36)" />
+                <ellipse cx="78" cy="36" rx="11" ry="18" fill={c.body} transform="rotate(15,78,36)" />
             </g>);
         case 'cat':
             return (<g>
-                <polygon points="32,35 25,12 44,28" fill={c.body} />
-                <polygon points="34,32 29,17 42,29" fill="#FDA4AF" opacity="0.4" />
-                <polygon points="68,35 75,12 56,28" fill={c.body} />
-                <polygon points="66,32 71,17 58,29" fill="#FDA4AF" opacity="0.4" />
+                <polygon points="26,30 18,2 42,22" fill={c.body} />
+                <polygon points="28,26 22,8 40,23" fill="#FDA4AF" opacity="0.4" />
+                <polygon points="74,30 82,2 58,22" fill={c.body} />
+                <polygon points="72,26 78,8 60,23" fill="#FDA4AF" opacity="0.4" />
             </g>);
         case 'bird':
             return (<g>
-                <ellipse cx="50" cy="16" rx="3" ry="8" fill={c.body} />
-                <ellipse cx="46" cy="18" rx="2" ry="6" fill={c.body} transform="rotate(-10,46,18)" />
-                <ellipse cx="54" cy="18" rx="2" ry="6" fill={c.body} transform="rotate(10,54,18)" />
+                <ellipse cx="50" cy="4" rx="3" ry="9" fill={c.body} />
+                <ellipse cx="45" cy="6" rx="2.5" ry="7" fill={c.body} transform="rotate(-12,45,6)" />
+                <ellipse cx="55" cy="6" rx="2.5" ry="7" fill={c.body} transform="rotate(12,55,6)" />
             </g>);
         case 'horse':
             return (<g>
-                <ellipse cx="37" cy="22" rx="5" ry="11" fill={c.body} transform="rotate(-8,37,22)" />
-                <ellipse cx="63" cy="22" rx="5" ry="11" fill={c.body} transform="rotate(8,63,22)" />
-                {/* 鬃毛 */}
-                <ellipse cx="50" cy="20" rx="12" ry="7" fill={c.light} opacity="0.7" />
+                <ellipse cx="34" cy="14" rx="6" ry="13" fill={c.body} transform="rotate(-10,34,14)" />
+                <ellipse cx="66" cy="14" rx="6" ry="13" fill={c.body} transform="rotate(10,66,14)" />
+                <ellipse cx="50" cy="10" rx="14" ry="8" fill={c.light} opacity="0.6" />
             </g>);
         case 'monkey':
             return (<g>
-                <circle cx="22" cy="45" r="11" fill={c.body} />
-                <circle cx="22" cy="45" r="7" fill={c.light} opacity="0.5" />
-                <circle cx="78" cy="45" r="11" fill={c.body} />
-                <circle cx="78" cy="45" r="7" fill={c.light} opacity="0.5" />
+                <circle cx="16" cy="40" r="13" fill={c.body} />
+                <circle cx="16" cy="40" r="8" fill={c.light} opacity="0.5" />
+                <circle cx="84" cy="40" r="13" fill={c.body} />
+                <circle cx="84" cy="40" r="8" fill={c.light} opacity="0.5" />
             </g>);
         default: return null;
     }
@@ -147,22 +138,20 @@ function Ears({ type, c }) {
 
 // ─── 腳 ──────────────────────────────
 
-function Legs({ type, c, isHappy }) {
+function Legs({ type, c }) {
     if (type === 'bird') {
         return (<g>
-            <line x1="42" y1="120" x2="42" y2="138" stroke="#F59E0B" strokeWidth="3" strokeLinecap="round" />
-            <line x1="58" y1="120" x2="58" y2="138" stroke="#F59E0B" strokeWidth="3" strokeLinecap="round" />
-            <line x1="36" y1="138" x2="48" y2="138" stroke="#F59E0B" strokeWidth="2.5" strokeLinecap="round" />
-            <line x1="52" y1="138" x2="64" y2="138" stroke="#F59E0B" strokeWidth="2.5" strokeLinecap="round" />
+            <line x1="44" y1="116" x2="44" y2="128" stroke="#F59E0B" strokeWidth="2.5" strokeLinecap="round" />
+            <line x1="56" y1="116" x2="56" y2="128" stroke="#F59E0B" strokeWidth="2.5" strokeLinecap="round" />
+            <line x1="39" y1="128" x2="49" y2="128" stroke="#F59E0B" strokeWidth="2" strokeLinecap="round" />
+            <line x1="51" y1="128" x2="61" y2="128" stroke="#F59E0B" strokeWidth="2" strokeLinecap="round" />
         </g>);
     }
     return (<g>
-        {/* 左腳 */}
-        <ellipse cx="38" cy="120" rx="9" ry="6" fill={c.body} />
-        <ellipse cx="38" cy="122" rx="7" ry="4" fill={c.belly} opacity="0.5" />
-        {/* 右腳 */}
-        <ellipse cx="62" cy="120" rx="9" ry="6" fill={c.body} />
-        <ellipse cx="62" cy="122" rx="7" ry="4" fill={c.belly} opacity="0.5" />
+        <ellipse cx="40" cy="116" rx="8" ry="5" fill={c.body} />
+        <ellipse cx="40" cy="117" rx="6" ry="3.5" fill={c.belly} opacity="0.5" />
+        <ellipse cx="60" cy="116" rx="8" ry="5" fill={c.body} />
+        <ellipse cx="60" cy="117" rx="6" ry="3.5" fill={c.belly} opacity="0.5" />
     </g>);
 }
 
@@ -171,19 +160,19 @@ function Legs({ type, c, isHappy }) {
 function Tail({ type, c }) {
     switch (type) {
         case 'bear':
-            return <circle cx="72" cy="115" r="5" fill={c.body} />;
+            return <circle cx="66" cy="112" r="4" fill={c.body} />;
         case 'rabbit':
-            return <circle cx="72" cy="112" r="6" fill="white" opacity="0.8" />;
+            return <circle cx="66" cy="110" r="5" fill="white" opacity="0.8" />;
         case 'dog':
-            return (<path d="M 72 100 Q 82 90 85 100 Q 82 105 75 108"
+            return (<path d="M 66 98 Q 76 88 78 98 Q 76 104 70 106"
                 fill={c.body} className="tail-wag" />);
         case 'cat':
-            return (<path d="M 72 105 Q 88 95 85 110 Q 82 120 78 115"
-                fill={c.body} stroke={c.body} strokeWidth="3"
+            return (<path d="M 66 104 Q 82 94 80 108 Q 78 118 74 112"
+                fill={c.body} stroke={c.body} strokeWidth="2.5"
                 strokeLinecap="round" className="tail-wag" />);
         case 'monkey':
-            return (<path d="M 72 105 Q 90 100 88 115 Q 85 130 80 125"
-                fill="none" stroke={c.body} strokeWidth="4"
+            return (<path d="M 66 104 Q 84 98 82 112 Q 80 124 76 118"
+                fill="none" stroke={c.body} strokeWidth="3.5"
                 strokeLinecap="round" className="tail-wag" />);
         default: return null;
     }
@@ -195,18 +184,18 @@ function FaceDetail({ type, c }) {
     switch (type) {
         case 'cat':
             return (<g stroke="#94a3b8" strokeWidth="1" opacity="0.4">
-                <line x1="35" y1="52" x2="18" y2="50" />
-                <line x1="35" y1="55" x2="18" y2="56" />
-                <line x1="65" y1="52" x2="82" y2="50" />
-                <line x1="65" y1="55" x2="82" y2="56" />
+                <line x1="36" y1="46" x2="16" y2="44" />
+                <line x1="36" y1="49" x2="16" y2="50" />
+                <line x1="64" y1="46" x2="84" y2="44" />
+                <line x1="64" y1="49" x2="84" y2="50" />
             </g>);
         case 'monkey':
-            return <circle cx="50" cy="53" r="18" fill={c.light} opacity="0.6" />;
+            return <circle cx="50" cy="48" r="22" fill={c.light} opacity="0.6" />;
         default: return null;
     }
 }
 
-// ─── 表情系統 ──────────────────────────
+// ─── 表情 ──────────────────────────────
 
 function Expression({ mood }) {
     const isHappy = mood === 'happy' || mood === 'excited';
@@ -214,32 +203,32 @@ function Expression({ mood }) {
 
     if (isHappy) {
         return (<g>
-            <g stroke="#1e293b" strokeWidth="3" fill="none" strokeLinecap="round">
-                <path d="M 39 42 Q 44 36 49 42" />
-                <path d="M 51 42 Q 56 36 61 42" />
+            <g stroke="#1e293b" strokeWidth="3.5" fill="none" strokeLinecap="round">
+                <path d="M 36 36 Q 42 28 48 36" />
+                <path d="M 52 36 Q 58 28 64 36" />
             </g>
-            <circle cx="35" cy="52" r="4.5" fill="#FECACA" opacity="0.6" />
-            <circle cx="65" cy="52" r="4.5" fill="#FECACA" opacity="0.6" />
-            <path d="M 42 56 Q 50 65 58 56" stroke="#1e293b" strokeWidth="2"
+            <circle cx="32" cy="48" r="5" fill="#FECACA" opacity="0.6" />
+            <circle cx="68" cy="48" r="5" fill="#FECACA" opacity="0.6" />
+            <path d="M 40 52 Q 50 63 60 52" stroke="#1e293b" strokeWidth="2.5"
                 fill="#FECACA" strokeLinecap="round" />
         </g>);
     }
     if (isSad) {
         return (<g>
             <g stroke="#475569" strokeWidth="2.5" fill="none" strokeLinecap="round">
-                <path d="M 39 44 Q 44 48 49 44" />
-                <path d="M 51 44 Q 56 48 61 44" />
+                <path d="M 36 38 Q 42 43 48 38" />
+                <path d="M 52 38 Q 58 43 64 38" />
             </g>
-            <path d="M 43 60 Q 50 55 57 60" stroke="#475569" strokeWidth="1.8"
+            <path d="M 42 55 Q 50 49 58 55" stroke="#475569" strokeWidth="2"
                 fill="none" strokeLinecap="round" />
         </g>);
     }
     return (<g>
-        <circle cx="43" cy="42" r="3.5" fill="#1e293b" />
-        <circle cx="57" cy="42" r="3.5" fill="#1e293b" />
-        <circle cx="44" cy="40.5" r="1.2" fill="white" />
-        <circle cx="58" cy="40.5" r="1.2" fill="white" />
-        <path d="M 43 56 Q 50 62 57 56" stroke="#475569" strokeWidth="1.8"
+        <circle cx="42" cy="36" r="4" fill="#1e293b" />
+        <circle cx="58" cy="36" r="4" fill="#1e293b" />
+        <circle cx="43.5" cy="34.5" r="1.5" fill="white" />
+        <circle cx="59.5" cy="34.5" r="1.5" fill="white" />
+        <path d="M 42 52 Q 50 59 58 52" stroke="#475569" strokeWidth="2"
             fill="none" strokeLinecap="round" />
     </g>);
 }
@@ -248,14 +237,14 @@ function Expression({ mood }) {
 
 function Nose({ type }) {
     if (type === 'bird') {
-        return <polygon points="50,48 45,53 55,53" fill="#F59E0B" stroke="#D97706" strokeWidth="0.8" />;
+        return <polygon points="50,42 44,48 56,48" fill="#F59E0B" stroke="#D97706" strokeWidth="0.8" />;
     }
     if (type === 'dog') {
-        return <ellipse cx="50" cy="51" rx="4" ry="3" fill="#1e293b" />;
+        return <ellipse cx="50" cy="45" rx="4.5" ry="3.5" fill="#1e293b" />;
     }
     return (<g>
-        <ellipse cx="50" cy="51" rx="3.5" ry="2.5" fill="#4a3728" />
-        <ellipse cx="51" cy="50.2" rx="1.5" ry="1" fill="#6b5244" opacity="0.5" />
+        <ellipse cx="50" cy="45" rx="4" ry="3" fill="#4a3728" />
+        <ellipse cx="51.5" cy="44" rx="1.8" ry="1" fill="#6b5244" opacity="0.5" />
     </g>);
 }
 
@@ -265,40 +254,40 @@ function GradeAccessories({ grade }) {
     if (grade <= 1) return null;
     return (<g>
         {grade >= 2 && (
-            <g transform="translate(50,68)">
-                <path d="M -7 0 C -7 -5 -1 -5 0 0 C 1 -5 7 -5 7 0 C 7 5 1 5 0 0 C -1 5 -7 5 -7 0 Z"
+            <g transform="translate(50,72)">
+                <path d="M -8 0 C -8 -5 -1 -5 0 0 C 1 -5 8 -5 8 0 C 8 5 1 5 0 0 C -1 5 -8 5 -8 0 Z"
                     fill="#F43F5E" />
                 <circle r="2.5" fill="#FB7185" />
             </g>
         )}
         {grade >= 3 && (
-            <path d="M 32 70 Q 50 76 68 70" stroke="#22C55E" strokeWidth="4"
-                fill="none" strokeLinecap="round" opacity="0.65" />
+            <path d="M 34 74 Q 50 80 66 74" stroke="#22C55E" strokeWidth="3.5"
+                fill="none" strokeLinecap="round" opacity="0.6" />
         )}
         {grade >= 4 && grade < 5 && (
             <g>
-                <path d="M 38 25 L 50 5 L 62 25 Z" fill="#F87171" stroke="#EF4444" strokeWidth="1" />
-                <circle cx="50" cy="5" r="3" fill="#FBBF24" />
+                <path d="M 36 15 L 50 -5 L 64 15 Z" fill="#F87171" stroke="#EF4444" strokeWidth="1" />
+                <circle cx="50" cy="-5" r="3" fill="#FBBF24" />
             </g>
         )}
         {grade >= 5 && (
-            <g transform="translate(50,18)">
-                <path d="M -12 5 L -8 -6 L 0 1 L 8 -6 L 12 5 Z"
+            <g transform="translate(50,8)">
+                <path d="M -14 5 L -9 -7 L 0 1 L 9 -7 L 14 5 Z"
                     fill="#FBBF24" stroke="#F59E0B" strokeWidth="0.8" />
-                <circle cx="-8" cy="-6" r="1.5" fill="#EF4444" />
+                <circle cx="-9" cy="-7" r="1.5" fill="#EF4444" />
                 <circle cx="0" cy="1" r="1.5" fill="#3B82F6" />
-                <circle cx="8" cy="-6" r="1.5" fill="#10B981" />
+                <circle cx="9" cy="-7" r="1.5" fill="#10B981" />
             </g>
         )}
         {grade >= 6 && (
             <g opacity="0.8">
-                <circle cx="50" cy="8" r="2.5" fill="#FBBF24">
+                <circle cx="50" cy="-2" r="2.5" fill="#FBBF24">
                     <animate attributeName="opacity" values="1;0.3;1" dur="2s" repeatCount="indefinite" />
                 </circle>
-                <circle cx="38" cy="12" r="1.5" fill="#FCD34D">
+                <circle cx="36" cy="2" r="1.5" fill="#FCD34D">
                     <animate attributeName="opacity" values="0.3;1;0.3" dur="1.8s" repeatCount="indefinite" />
                 </circle>
-                <circle cx="62" cy="12" r="1.5" fill="#FCD34D">
+                <circle cx="64" cy="2" r="1.5" fill="#FCD34D">
                     <animate attributeName="opacity" values="0.6;1;0.6" dur="1.5s" repeatCount="indefinite" />
                 </circle>
             </g>

@@ -1656,3 +1656,603 @@ body {
         font-size: 3rem;
     }
 }
+
+/* ========= 國語寫字頁面樣式 ========= */
+
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@900&display=swap');
+
+.writing-container {
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(135deg, #fefce8, #fef9c3, #ecfccb);
+    font-family: 'Noto Sans TC', var(--font-main);
+    touch-action: none;
+    overflow: hidden;
+}
+
+/* 頂部欄 */
+.writing-topbar {
+    padding: 8px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex-shrink: 0;
+}
+
+.writing-topbar-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.writing-level-info {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex: 1;
+}
+
+.writing-level-circle {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    font-weight: 900;
+    box-shadow: 0 3px 8px rgba(217, 119, 6, 0.3);
+}
+
+.writing-speak-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255, 255, 255, 0.9);
+    border: 2px solid #e0e7ff;
+    border-radius: 16px;
+    padding: 6px 14px;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.writing-custom-btn {
+    flex-shrink: 0;
+    background: #f3e8ff;
+    color: #7c3aed;
+    font-weight: 900;
+    font-size: 0.7rem;
+    padding: 5px 12px;
+    border-radius: 16px;
+    border: 2px solid #e9d5ff;
+    cursor: pointer;
+    font-family: inherit;
+}
+
+.writing-xp-bar {
+    flex: 1;
+    height: 10px;
+    background: #fef3c7;
+    border-radius: 999px;
+    overflow: hidden;
+    border: 1px solid #fde68a;
+}
+
+.writing-xp-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #fbbf24, #f97316);
+    border-radius: 999px;
+    transition: width 0.6s ease;
+}
+
+.writing-progress-dots {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.writing-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+/* 寫字區 */
+.writing-area-wrapper {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    min-height: 0;
+}
+
+.writing-square {
+    position: relative;
+    background: white;
+    border-radius: 24px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+}
+
+/* 九宮格底圖 */
+.writing-grid-bg {
+    position: absolute;
+    inset: 0;
+    background-color: white;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.writing-grid-border {
+    position: absolute;
+    inset: 0;
+    border: 3px solid rgba(239, 68, 68, 0.3);
+    pointer-events: none;
+    z-index: 3;
+}
+
+.writing-grid-lines {
+    position: absolute;
+    inset: 3px;
+    pointer-events: none;
+    z-index: 2;
+    background-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25'%3E%3Cline x1='33.33%25' y1='0' x2='33.33%25' y2='100%25' stroke='%23ef4444' stroke-width='1.5' stroke-dasharray='8,6' stroke-opacity='0.25'/%3E%3Cline x1='66.66%25' y1='0' x2='66.66%25' y2='100%25' stroke='%23ef4444' stroke-width='1.5' stroke-dasharray='8,6' stroke-opacity='0.25'/%3E%3Cline x1='0' y1='33.33%25' x2='100%25' y2='33.33%25' stroke='%23ef4444' stroke-width='1.5' stroke-dasharray='8,6' stroke-opacity='0.25'/%3E%3Cline x1='0' y1='66.66%25' x2='100%25' y2='66.66%25' stroke='%23ef4444' stroke-width='1.5' stroke-dasharray='8,6' stroke-opacity='0.25'/%3E%3C/svg%3E");
+    background-size: 100% 100%;
+}
+
+/* 字帖引導字 */
+.writing-char-guide {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 200px;
+    /* 預設值，會被 JS resize 覆蓋為容器的 85% */
+    font-weight: 900;
+    color: rgba(0, 0, 0, 0.08);
+    font-family: 'Noto Sans TC', serif;
+    pointer-events: none;
+    z-index: 1;
+    line-height: 1;
+    user-select: none;
+}
+
+/* 底部操作列 */
+.writing-bottom {
+    padding: 8px 12px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.writing-color-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    overflow-x: auto;
+    padding: 4px 0;
+}
+
+.writing-color-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 14px;
+    border: 3px solid transparent;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 3px 0 rgba(0, 0, 0, 0.1);
+    flex-shrink: 0;
+}
+
+.writing-color-btn.active {
+    border-color: #1e293b;
+    transform: scale(1.15);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+}
+
+.writing-btn-row {
+    display: flex;
+    gap: 10px;
+}
+
+.writing-clear-btn {
+    flex: 1;
+    height: 48px;
+    background: #e2e8f0;
+    color: #64748b;
+    font-weight: 900;
+    border-radius: 16px;
+    border: none;
+    font-size: 0.9rem;
+    font-family: inherit;
+    cursor: pointer;
+    box-shadow: 0 4px 0 #cbd5e1;
+    transition: all 0.15s;
+}
+
+.writing-clear-btn:active {
+    transform: translateY(2px);
+    box-shadow: none;
+}
+
+.writing-check-btn {
+    flex: 1.5;
+    height: 48px;
+    background: #22c55e;
+    color: white;
+    font-weight: 900;
+    border-radius: 16px;
+    border: none;
+    font-size: 0.95rem;
+    font-family: inherit;
+    cursor: pointer;
+    box-shadow: 0 4px 0 #15803d;
+    transition: all 0.15s;
+}
+
+.writing-check-btn:active {
+    transform: translateY(2px);
+    box-shadow: none;
+}
+
+/* 彈窗 */
+.writing-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    padding: 20px;
+}
+
+.writing-modal-box {
+    background: white;
+    border-radius: 28px;
+    padding: 28px;
+    text-align: center;
+    max-width: 360px;
+    width: 100%;
+    border: 4px solid;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+}
+
+.writing-modal-title {
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: #78350f;
+    margin: 8px 0 4px;
+}
+
+.writing-modal-desc {
+    font-size: 0.85rem;
+    color: #9ca3af;
+    font-weight: 700;
+    margin-bottom: 16px;
+}
+
+.writing-modal-btn {
+    padding: 12px 28px;
+    background: linear-gradient(135deg, #22c55e, #16a34a);
+    color: white;
+    border: none;
+    border-radius: 999px;
+    font-size: 1rem;
+    font-weight: 900;
+    font-family: inherit;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
+    transition: transform 0.2s;
+}
+
+.writing-modal-btn:hover {
+    transform: scale(1.05);
+}
+
+/* 自訂國字 */
+.writing-custom-modal {
+    background: white;
+    border-radius: 24px;
+    padding: 24px;
+    max-width: 380px;
+    width: 100%;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+}
+
+.writing-custom-input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 3px solid #e9d5ff;
+    border-radius: 16px;
+    font-size: 1.2rem;
+    font-weight: 800;
+    font-family: inherit;
+    text-align: center;
+    letter-spacing: 0.3em;
+    background: #faf5ff;
+    outline: none;
+}
+
+.writing-custom-input:focus {
+    border-color: #a855f7;
+}
+
+.writing-custom-cancel {
+    flex: 1;
+    padding: 10px;
+    background: #e2e8f0;
+    border: none;
+    border-radius: 14px;
+    font-weight: 800;
+    font-size: 0.85rem;
+    font-family: inherit;
+    cursor: pointer;
+    color: #64748b;
+}
+
+.writing-custom-start {
+    flex: 1;
+    padding: 10px;
+    background: linear-gradient(135deg, #a855f7, #7c3aed);
+    border: none;
+    border-radius: 14px;
+    font-weight: 800;
+    font-size: 0.85rem;
+    font-family: inherit;
+    cursor: pointer;
+    color: white;
+    box-shadow: 0 4px 12px rgba(168, 85, 247, 0.3);
+}
+
+/* 成績單 */
+.writing-report {
+    background: white;
+    border-radius: 28px;
+    padding: 28px;
+    text-align: center;
+    max-width: 400px;
+    width: 100%;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+}
+
+/* 火花效果 */
+@keyframes writing-sparkle-fly {
+    0% {
+        opacity: 1;
+        transform: translate(0, 0) scale(1);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translate(var(--tx), var(--ty)) scale(0);
+    }
+}
+
+.writing-sparkle {
+    position: absolute;
+    font-size: 14px;
+    animation: writing-sparkle-fly 0.6s ease-out forwards;
+    pointer-events: none;
+}
+
+/* 響應式 */
+@media (min-width: 768px) {
+    .writing-char-guide {
+        /* font-size 由 JS 動態設定 */
+    }
+
+    .writing-color-btn {
+        width: 48px;
+        height: 48px;
+    }
+
+    .writing-clear-btn,
+    .writing-check-btn {
+        height: 56px;
+        font-size: 1.1rem;
+    }
+}
+
+/* ========= 著陸頁（國語/數學選擇）========= */
+
+.landing-view {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    padding: 0 20px;
+}
+
+.landing-header {
+    text-align: center;
+    padding: 50px 0 24px;
+}
+
+.landing-mascot {
+    margin-bottom: 8px;
+}
+
+.landing-title {
+    font-size: 2.6rem;
+    font-weight: 900;
+    color: var(--forest-800);
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    margin-bottom: 4px;
+    letter-spacing: -1px;
+}
+
+.landing-subtitle {
+    font-size: 1.05rem;
+    color: var(--forest-600);
+    font-weight: 700;
+}
+
+/* 雙卡片容器 */
+.landing-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    max-width: 480px;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.landing-card {
+    position: relative;
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(12px);
+    border: none;
+    border-radius: var(--radius-xl);
+    padding: 32px 16px 24px;
+    text-align: center;
+    cursor: pointer;
+    overflow: hidden;
+    box-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.08),
+        0 2px 8px rgba(0, 0, 0, 0.04);
+    border-bottom: 6px solid transparent;
+    font-family: var(--font-main);
+    transition: box-shadow 0.3s;
+}
+
+.landing-card-writing {
+    border-bottom-color: #f59e0b;
+}
+
+.landing-card-math {
+    border-bottom-color: var(--forest-400);
+}
+
+/* 光暈 */
+.lcard-glow {
+    position: absolute;
+    top: -30%;
+    left: -30%;
+    width: 160%;
+    height: 160%;
+    border-radius: 50%;
+    pointer-events: none;
+    opacity: 0.12;
+}
+
+.lcard-glow-writing {
+    background: radial-gradient(circle, #fbbf24, transparent 70%);
+}
+
+.lcard-glow-math {
+    background: radial-gradient(circle, #4ade80, transparent 70%);
+}
+
+.lcard-icon {
+    font-size: 3.5rem;
+    margin-bottom: 10px;
+    filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.1));
+}
+
+.lcard-title {
+    font-size: 1.4rem;
+    font-weight: 900;
+    color: var(--slate-800);
+    margin-bottom: 6px;
+}
+
+.lcard-desc {
+    font-size: 0.72rem;
+    color: var(--slate-400);
+    font-weight: 600;
+    line-height: 1.5;
+    margin-bottom: 14px;
+}
+
+.lcard-badge {
+    display: inline-block;
+    padding: 6px 16px;
+    border-radius: var(--radius-full);
+    font-size: 0.78rem;
+    font-weight: 800;
+}
+
+.landing-card-writing .lcard-badge {
+    background: linear-gradient(135deg, #fef3c7, #fde68a);
+    color: #92400e;
+}
+
+.landing-card-math .lcard-badge {
+    background: linear-gradient(135deg, var(--forest-100), var(--forest-200));
+    color: var(--forest-800);
+}
+
+/* 年級選擇返回列 */
+.grade-back-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    max-width: 440px;
+    padding: 24px 0 16px;
+}
+
+.grade-select-title {
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: var(--forest-800);
+}
+
+/* 響應式 — 著陸頁 */
+@media (max-width: 400px) {
+    .landing-title {
+        font-size: 2rem;
+    }
+
+    .landing-cards {
+        gap: 12px;
+    }
+
+    .landing-card {
+        padding: 24px 12px 20px;
+    }
+
+    .lcard-icon {
+        font-size: 2.8rem;
+    }
+
+    .lcard-title {
+        font-size: 1.15rem;
+    }
+}
+
+@media (min-width: 768px) {
+    .landing-cards {
+        max-width: 560px;
+        gap: 24px;
+    }
+
+    .landing-card {
+        padding: 40px 20px 30px;
+    }
+
+    .lcard-icon {
+        font-size: 4.5rem;
+    }
+
+    .lcard-title {
+        font-size: 1.6rem;
+    }
+
+    .lcard-desc {
+        font-size: 0.85rem;
+    }
+}

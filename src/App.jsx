@@ -2,6 +2,7 @@ import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import GamePage from './pages/GamePage';
+import WritingPage from './pages/WritingPage';
 import AdminLogin from './pages/AdminLogin';
 import AdminDashboard from './pages/AdminDashboard';
 
@@ -10,6 +11,7 @@ export default function App() {
         <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/game/:grade" element={<GamePage />} />
+            <Route path="/writing" element={<WritingPage />} />
             <Route path="/admin/login" element={<AdminLogin />} />
             <Route path="/admin" element={<AdminDashboard />} />
         </Routes>

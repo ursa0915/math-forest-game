@@ -1,5 +1,6 @@
 {
     "hosting": {
+        "site": "loherb-math-forest",
         "public": "dist",
         "ignore": [
             "firebase.json",
